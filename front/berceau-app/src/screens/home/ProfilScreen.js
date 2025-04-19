@@ -1,91 +1,149 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Image,
+  ScrollView
+} from 'react-native';
 
 const ProfileScreen = () => {
-  // État pour stocker le nom et le prénom de l'utilisateur
   const [name, setName] = useState('John');
   const [lastName, setLastName] = useState('Doe');
+  const [email, setEmail] = useState('john.doe@example.com'); // ✅ Nouveau champ
 
   const handleUpdate = () => {
-    Alert.alert('Mise à jour réussie!', 'Votre profil a été mis à jour.');
+    Alert.alert('🎉 Mise à jour réussie', 'Votre profil a été mis à jour avec succès !');
   };
 
   const handleLogout = () => {
-    Alert.alert('Déconnexion', 'Vous avez été déconnecté.');
-    // Logique de déconnexion ici (ex: réinitialiser l'état, supprimer le token d'authentification)
+    Alert.alert('👋 Déconnexion', 'Vous avez été déconnecté.');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Votre Profil</Text>
-      
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-        placeholder="Nom"
-      />
-      
-      <TextInput
-        style={styles.input}
-        value={lastName}
-        onChangeText={setLastName}
-        placeholder="Prénom"
-      />
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.card}>
+        <Image
+          source={require('../../../assets/family.png')}
+          style={styles.avatar}
+        />
+        <Text style={styles.title}>👨‍👩‍👧‍👦 Profil du parent</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-        <Text style={styles.buttonText}>Mettre à jour</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Se déconnecter</Text>
-      </TouchableOpacity>
-    </View>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          placeholder="Nom"
+          placeholderTextColor="#aaa"
+        />
+
+        <TextInput
+          style={styles.input}
+          value={lastName}
+          onChangeText={setLastName}
+          placeholder="Prénom"
+          placeholderTextColor="#aaa"
+        />
+
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email"
+          placeholderTextColor="#aaa"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+          <Text style={styles.buttonText}>✅ Mettre à jour</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.buttonText}>🚪 Se déconnecter</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#FFE4E1',
+  },
+  card: {
+    backgroundColor: '#FFF',
+    width: '100%',
+    borderRadius: 30,
+    padding: 30,
+    alignItems: 'center',
+    shadowColor: '#FFC0CB',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+    borderRadius: 60,
+    borderWidth: 3,
+    borderColor: '#FFD1DC',
   },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#FF69B4', // Une couleur douce et enfantine
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#FF69B4',
+    marginBottom: 25,
+    fontFamily: 'System',
   },
   input: {
-    height: 40,
     width: '100%',
-    borderColor: '#ddd',
+    height: 48,
+    backgroundColor: '#FFF8FA',
+    borderRadius: 15,
     borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginBottom: 20,
-    backgroundColor: '#fff',
+    borderColor: '#FFDDEE',
+    paddingHorizontal: 16,
+    marginBottom: 15,
+    fontSize: 17,
   },
   button: {
     backgroundColor: '#FF69B4',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 20,
     marginTop: 10,
+    shadowColor: '#F08080',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
   },
   logoutButton: {
-    backgroundColor: '#ff6347', // Une couleur différente pour la déconnexion
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    marginTop: 10,
+    backgroundColor: '#87CEFA',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 20,
+    marginTop: 15,
+    shadowColor: '#4682B4',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 16,
+    color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

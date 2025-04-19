@@ -1,15 +1,15 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';//permet de créer une navigation par onglets en bas de l’écran.
+import { MaterialCommunityIcons } from 'react-native-vector-icons';// bibliothèque d’icônes compatible avec React Native.
+import { NavigationContainer } from '@react-navigation/native';//composant racine qui gère l’état de navigation de l’application.
 
 // Importez vos écrans
-import HomeScreen from '../screens/home/HomeScreen';  // Assurez-vous que le chemin est correct
-import ProfileScreen from '../screens/home/ProfilScreen'; // Vous devrez créer un écran pour le profil
-import BebeScreen from '../screens/home/BebeScreen'; // Vous devrez créer un écran pour bébé
-import ParametresScreen from '../screens/home/ParametresScreen'; // Vous devrez créer un écran pour paramètres
+import HomeScreen from '../screens/home/HomeScreen';  
+import ProfileScreen from '../screens/home/ProfilScreen'; 
+import BebeScreen from '../screens/home/BebeScreen'; 
+import ParametresScreen from '../screens/home/ParametresScreen'; 
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();//On crée une instance du navigateur à onglets
 
 const BottomTabNavigator = () => {
   return (
@@ -17,8 +17,8 @@ const BottomTabNavigator = () => {
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: { backgroundColor: '#FF69B4' }, // Couleur de fond de la barre
-          tabBarActiveTintColor: 'white', // Couleur des icônes actives
-          tabBarInactiveTintColor: 'gray', // Couleur des icônes inactives
+          tabBarActiveTintColor: 'white', // blanc pour l’icône sélectionnée.
+          tabBarInactiveTintColor: 'gray', //  gris pour les icônes non sélectionnées.
         }}
       >
         <Tab.Screen

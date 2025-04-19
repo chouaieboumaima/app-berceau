@@ -16,23 +16,15 @@ import ConsulterLumiereScreen from '../screens/berceau/ConsulterLumiereScreen';
 import ConsulterServoScreen from '../screens/berceau/ConsulterServoScreen';
 
 // Écrans fictifs (à personnaliser plus tard)
-const BebeScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text style={{ fontSize: 18 }}>Écran Bébé</Text>
-  </View>
-);
 
-const ProfilScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text style={{ fontSize: 18 }}>Écran Profil</Text>
-  </View>
-);
 
-const ParametresScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text style={{ fontSize: 18 }}>Écran Paramètres</Text>
-  </View>
-);
+// Pour profileScreen
+import ProfilScreen from '../screens/home/ProfilScreen';
+//Pour BebeScreen
+import BebeScreen from '../screens/home/BebeScreen';
+//pour parametreScreen
+import ParametresScreen from '../screens/home/ParametresScreen';
+
 
 // Création des navigateurs
 const Stack = createStackNavigator();
