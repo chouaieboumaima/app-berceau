@@ -22,7 +22,7 @@ const BottomTabNavigator = () => {
         }}
       >
         <Tab.Screen
-          name="Accueil"
+          name="Home"
           component={HomeScreen}
           options={{
             tabBarIcon: ({ color }) => (

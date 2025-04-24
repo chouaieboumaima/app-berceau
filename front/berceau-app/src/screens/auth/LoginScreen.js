@@ -9,33 +9,54 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import useAuthStore from '../../store/UseAuthStore';
+import { signIn, forgot } from '../../services/AuthService';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [error, setError] = useState(null);
 
-  const setUser = useAuthStore(state => state.setUser);
-
+  const login = useAuthStore(state => state.login);
 
   const handleLogin = async () => {
-    const userData = {
-      user: { email },
-      token: 'tokenSimulé123',
-    };
-  
-    const login = useAuthStore.getState().login;
-    await login(userData);
-  
-    console.log('Connexion avec', email, password);
-    navigation.navigate('Home');
+    try {
+      console.log("ghjh ")
+
+      const response = await signIn(email, password);
+      console.log("ghjh "+response)
+      await login({ user: response.user, token: response.token });
+
+      // navigation.navigate('Home');
+    } catch (err) {
+      console.error(err);
+      setError('Email ou mot de passe invalide');
+    }
   };
-  
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Veuillez entrer votre adresse e-mail pour réinitialiser votre mot de passe.');
+      return;
+    }
+
+    try {
+      await forgot(email);
+      Alert.alert('Succès', 'Un lien de réinitialisation a été envoyé à votre adresse e-mail.');
+      setError(null);
+      // Si vous souhaitez naviguer vers un écran de réinitialisation après l'envoi, utilisez la navigation ici
+      navigation.navigate('Oublier');
+    } catch (err) {
+      console.error(err);
+      setError("Impossible d'envoyer l'e-mail de réinitialisation.");
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -49,6 +70,8 @@ export default function LoginScreen() {
         />
         <Text style={styles.title}>Bienvenue, maman 💖</Text>
         <Text style={styles.subtitle}>Connecte-toi pour surveiller ton bébé</Text>
+
+        {error && <Text style={styles.error}>{error}</Text>}
 
         <TextInput
           style={styles.input}
@@ -79,6 +102,10 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Se connecter</Text>
         </TouchableOpacity>
@@ -94,76 +121,34 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF0F5',
+  container: { flex: 1, backgroundColor: '#FFF0F5' },
+  scrollContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 50 },
+  image: { width: 150, height: 150, marginBottom: 20, resizeMode: 'contain' },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#FF69B4', marginBottom: 10 },
+  subtitle: { fontSize: 16, color: '#555', marginBottom: 30 },
+  input: {
+    width: '80%', backgroundColor: '#fff', padding: 14, borderRadius: 10,
+    marginBottom: 15, borderWidth: 1, borderColor: '#FFB6C1'
   },
-  scrollContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 50,
+  passwordContainer: { position: 'relative', width: '80%' },
+  passwordInput: {
+    width: '100%', backgroundColor: '#fff', padding: 14, borderRadius: 10,
+    marginBottom: 5, borderWidth: 1, borderColor: '#FFB6C1'
   },
-  image: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-    resizeMode: 'contain',
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
+  eyeIcon: { position: 'absolute', right: 10, top: 15 },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginRight: '10%',
     color: '#FF69B4',
     marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#555',
-    marginBottom: 30,
-  },
-  input: {
-    width: '80%',
-    backgroundColor: '#fff',
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#FFB6C1',
-  },
-  passwordContainer: {
-    position: 'relative',
-    width: '80%',
-  },
-  passwordInput: {
-    width: '100%',
-    backgroundColor: '#fff',
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#FFB6C1',
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 10,
-    top: 15,
+    textDecorationLine: 'underline'
   },
   button: {
-    backgroundColor: '#FF69B4',
-    paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    marginTop: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
+    backgroundColor: '#FF69B4', paddingVertical: 14, paddingHorizontal: 40,
+    borderRadius: 10, marginTop: 10, shadowColor: '#000',
+    shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 },
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  registerLink: {
-    marginTop: 20,
-    color: '#FF69B4',
-    textDecorationLine: 'underline',
-  },
+  buttonText: { color: '#fff', fontSize: 16 },
+  registerLink: { marginTop: 20, color: '#FF69B4', textDecorationLine: 'underline' },
+  error: { color: 'red', marginBottom: 10 }
 });

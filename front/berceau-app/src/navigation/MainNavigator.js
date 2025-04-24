@@ -54,7 +54,7 @@ const MainNavigator = () => (
       tabBarIcon: ({ color, size }) => {
         let iconName;
         switch (route.name) {
-          case 'Accueil':
+          case 'Home':
             iconName = 'home';
             break;
           case 'Profil':
@@ -74,7 +74,7 @@ const MainNavigator = () => (
       headerShown: false,
     })}
   >
-    <Tab.Screen name="Accueil" component={HomeStack} />
+    <Tab.Screen name="Home" component={HomeStack} />
     <Tab.Screen name="Profil" component={ProfilScreen} />
     <Tab.Screen name="Bébé" component={BebeScreen} />
     <Tab.Screen name="Paramètres" component={ParametresScreen} />
